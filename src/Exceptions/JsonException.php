@@ -27,6 +27,6 @@ abstract class JsonException extends Exception
      */
     public function getJsonErrorMessage()
     {
-        $this->jsonErrorMessage;
+        return $this->jsonErrorMessage;
     }
 }
