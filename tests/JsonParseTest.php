@@ -58,14 +58,4 @@ class JsonParseTest extends TestCase
         JsonParse::decode($jsonString, true);
     }
 
-    /**
-     * @test
-     * @expectedException Midnite81\JsonParser\Exceptions\SyntaxErrorException
-     */
-    public function it_can_throw_error_on_decode()
-    {
-        $jsonString = '{"message":"Hello ';
-
-        JsonParse::decode($jsonString, true);
-    }
 }
