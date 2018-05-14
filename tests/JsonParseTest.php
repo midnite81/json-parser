@@ -60,7 +60,7 @@ class JsonParseTest extends TestCase
 
     /**
      * @test
-     * @expectedException Midnite81\JsonParser\Exceptions\ControlCharacterException
+     * @expectedException Midnite81\JsonParser\Exceptions\SyntaxErrorException
      */
     public function it_can_throw_error_on_decode()
     {

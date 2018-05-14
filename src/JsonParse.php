@@ -15,19 +15,6 @@ use Midnite81\JsonParser\Exceptions\UnsupportedTypeException;
 
 class JsonParse
 {
-    protected static $exceptionClasses = [
-        // 'JSON_ERROR_NONE' => 'No error has occurred',
-        JSON_ERROR_DEPTH => MaximumStackDepthExceededException::class,
-        JSON_ERROR_STATE_MISMATCH => InvalidOrMalformedJsonException::class,
-        JSON_ERROR_CTRL_CHAR => ControlCharacterException::class,
-        JSON_ERROR_SYNTAX => SyntaxErrorException::class,
-        JSON_ERROR_UTF8 => MalformedUtf8CharactersException::class,
-        JSON_ERROR_RECURSION => RecursiveReferencesException::class,
-        JSON_ERROR_INF_OR_NAN => InfiniteNumberException::class,
-        JSON_ERROR_UNSUPPORTED_TYPE => UnsupportedTypeException::class,
-        JSON_ERROR_INVALID_PROPERTY_NAME => InvalidPropertyName::class,
-        JSON_ERROR_UTF16 => MalformedUtf16CharactersException::class,
-    ];
 
     /**
      * @param     $value
@@ -67,6 +54,38 @@ class JsonParse
         return static::throwException(json_last_error());
     }
 
+    protected static function exceptionClasses()
+    {
+        $exceptionClasses = [
+            JSON_ERROR_DEPTH => MaximumStackDepthExceededException::class,
+            JSON_ERROR_STATE_MISMATCH => InvalidOrMalformedJsonException::class,
+            JSON_ERROR_CTRL_CHAR => ControlCharacterException::class,
+            JSON_ERROR_SYNTAX => SyntaxErrorException::class,
+        ];
+
+        if (phpversion() >= '5.3.3') {
+            $exceptionClasses = array_merge($exceptionClasses, [
+                JSON_ERROR_UTF8 => MalformedUtf8CharactersException::class,
+            ]);
+        }
+        if (phpversion() >= '5.5.0') {
+            $exceptionClasses = array_merge($exceptionClasses, [
+                JSON_ERROR_RECURSION => RecursiveReferencesException::class,
+                JSON_ERROR_INF_OR_NAN => InfiniteNumberException::class,
+                JSON_ERROR_UNSUPPORTED_TYPE => UnsupportedTypeException::class,
+            ]);
+        }
+
+        if (phpversion() >= '7.0.0') {
+            $exceptionClasses = array_merge($exceptionClasses, [
+                JSON_ERROR_INVALID_PROPERTY_NAME => InvalidPropertyName::class,
+                JSON_ERROR_UTF16 => MalformedUtf16CharactersException::class,
+            ]);
+        }
+
+        return $exceptionClasses;
+    }
+
     /**
      * Throw Exception based on Error Type
      *
@@ -74,8 +93,8 @@ class JsonParse
      */
     protected static function throwException($error)
     {
-        if (array_key_exists($error, static::$exceptionClasses)) {
-            $class = static::$exceptionClasses[$error]; 
+        if (array_key_exists($error, static::exceptionClasses())) {
+            $class = static::exceptionClasses()[$error];
             throw new $class;
         }
     }
