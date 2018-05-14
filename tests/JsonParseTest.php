@@ -2,7 +2,6 @@
 
 namespace Midnite81\JsonParser\Tests;
 
-use Midnite81\JsonParser\Exceptions\JsonException;
 use Midnite81\JsonParser\JsonParse;
 use PHPUnit\Framework\TestCase;
 
