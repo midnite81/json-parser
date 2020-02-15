@@ -30,7 +30,7 @@ class JsonParse
             return $result;
         }
 
-        return static::throwException(json_last_error());
+        static::throwException(json_last_error());
     }
 
     /**
@@ -51,7 +51,18 @@ class JsonParse
             return $result;
         }
 
-        return static::throwException(json_last_error());
+        static::throwException(json_last_error());
+    }
+
+    /**
+     * Return pretty json
+     *
+     * @param $contents
+     * @return string
+     */
+    public static function decodePretty($contents)
+    {
+        return json_encode(json_decode($contents), JSON_PRETTY_PRINT);
     }
 
     protected static function exceptionClasses()

@@ -71,6 +71,24 @@ class JsonParseTest extends TestCase
 
     /**
      * @test
+     */
+    public function it_can_pretify_json()
+    {
+        $jsonString = '{"message":"Hello World"}';
+
+        $result = JsonParse::decodePretty($jsonString);
+
+        echo $result;
+
+        $expected = "{\n    \"message\": \"Hello World\"\n}";
+
+        $this->assertInternalType('string', $result);
+        $this->assertEquals($expected, $result);
+    }
+
+
+    /**
+     * @test
      * @expectedException Midnite81\JsonParser\Exceptions\JsonException
      */
     public function it_can_throw_generic_error_on_decode()

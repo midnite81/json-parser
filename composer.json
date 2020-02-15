@@ -23,5 +23,7 @@
             "Midnite81\\JsonParser\\Tests\\": "tests/"
         }
     },
-    "require": {}
+    "require": {
+        "ext-json": "*"
+    }
 }
